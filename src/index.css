@@ -1,0 +1,357 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --paper: #eae5d9;
+  --paper-raised: #f2eee3;
+  --ink: #1f2a24;
+  --ink-soft: #55594f;
+  --rule: #c7bfa9;
+  --brass: #93712f;
+  --gain: #2f6b4f;
+  --loss: #a13d2e;
+
+  color-scheme: light;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+h1,
+h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.25rem;
+  border-bottom: 3px solid var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+.masthead__title h1 {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  letter-spacing: -0.01em;
+}
+
+.masthead__title p {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.masthead__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.masthead__refresh {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.masthead__refresh:hover {
+  background: var(--brass);
+}
+
+/* ---------- Status banner ---------- */
+
+.status-banner {
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.status-banner--error {
+  border-color: var(--loss);
+  color: var(--loss);
+}
+
+.status-banner--error button {
+  background: none;
+  border: 1px solid var(--loss);
+  color: var(--loss);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}
+
+/* ---------- Search ---------- */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.search-bar__input {
+  flex: 1;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  padding: 0.6rem 0.8rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.search-bar__input:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 1px;
+}
+
+.search-bar__count {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ---------- Layout ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+/* ---------- Ledger table ---------- */
+
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.ledger thead th {
+  text-align: left;
+  border-bottom: 2px solid var(--ink);
+  padding: 0.5rem 0.6rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.ledger__th--right {
+  text-align: right;
+}
+
+.ledger__sort-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.ledger__sort-arrow {
+  color: var(--brass);
+}
+
+.ledger tbody tr {
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+}
+
+.ledger tbody tr:hover,
+.ledger tbody tr.is-selected {
+  background: var(--paper-raised);
+}
+
+.ledger tbody tr:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: -2px;
+}
+
+.ledger td {
+  padding: 0.55rem 0.6rem;
+  vertical-align: middle;
+}
+
+.ledger__rank {
+  color: var(--ink-soft);
+}
+
+.ledger__td--right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger__muted {
+  color: var(--ink-soft);
+}
+
+.ledger__name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ledger__name img {
+  border-radius: 50%;
+}
+
+.ledger__name-full {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+}
+
+.ledger__symbol {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+}
+
+.is-positive {
+  color: var(--gain);
+}
+
+.is-negative {
+  color: var(--loss);
+}
+
+.sparkline--up polyline {
+  stroke: var(--gain);
+}
+
+.sparkline--down polyline {
+  stroke: var(--loss);
+}
+
+.sparkline--empty {
+  display: inline-block;
+}
+
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  border: 1px dashed var(--rule);
+}
+
+/* ---------- Detail panel ---------- */
+
+.detail-panel {
+  position: relative;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  padding: 1.25rem;
+  font-size: 0.82rem;
+}
+
+.detail-panel__close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.detail-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.75rem;
+}
+
+.detail-panel__header img {
+  border-radius: 50%;
+}
+
+.detail-panel__header h2 {
+  font-size: 1.15rem;
+}
+
+.detail-panel__price {
+  font-family: "Fraunces", serif;
+  font-size: 1.6rem;
+  margin: 0 0 0.75rem;
+}
+
+.detail-panel__chart {
+  margin-bottom: 1rem;
+}
+
+.detail-panel__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+  margin: 0;
+}
+
+.detail-panel__stats div {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.4rem;
+}
+
+.detail-panel__stats dt {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+}
+
+.detail-panel__stats dd {
+  margin: 0.2rem 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Footer ---------- */
+
+.app-footer {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
