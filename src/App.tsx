@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CoinDetail } from "./components/CoinDetail";
 import { CoinTable } from "./components/CoinTable";
 import { SearchBar } from "./components/SearchBar";
@@ -8,13 +8,21 @@ import type { Coin, SortKey, SortState } from "./types/coin";
 import { formatTime } from "./utils/format";
 
 export default function App() {
-  const { coins, status, error, lastUpdated, refresh } = useCoins();
+  const [currency, setCurrency] = useState("EUR");
+  const { coins, status, error, lastUpdated, refresh } = useCoins(currency);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortState>({
     key: "market_cap_rank",
     direction: "asc",
   });
   const [selected, setSelected] = useState<Coin | null>(null);
+
+  useEffect(() => {
+    if (!selected) return;
+
+    const updated = coins.find((c) => c.id === selected.id);
+    if(updated) setSelected(updated);
+  }, [coins]);
 
   const visibleCoins = useMemo(() => {
     const filtered = coins.filter((coin) => {
@@ -40,7 +48,7 @@ export default function App() {
     setSort((prev) =>
       prev.key === key
         ? { key, direction: prev.direction === "asc" ? "desc" : "asc" }
-        : { key, direction: key === "market_cap_rank" ? "asc" : "desc" }
+        : { key, direction: key === "market_cap_rank" ? "asc" : "desc" },
     );
   }
 
@@ -52,10 +60,26 @@ export default function App() {
           <p>Cotización en vivo de las 50 criptomonedas por capitalización</p>
         </div>
         <div className="masthead__meta">
-          {lastUpdated && <span>Actualizado a las {formatTime(lastUpdated)}</span>}
+          {lastUpdated && (
+            <span>Actualizado a las {formatTime(lastUpdated)}</span>
+          )}
           <button type="button" className="masthead__refresh" onClick={refresh}>
             Actualizar
           </button>
+
+          {/* menú de selección de moneda */}
+          <div className="masthead__currency">
+            <select
+              name="options"
+              id="currency"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+            >
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+              <option value="GBP">GBP</option>
+            </select>
+          </div>
         </div>
       </header>
 
@@ -63,7 +87,11 @@ export default function App() {
 
       {status !== "error" && (
         <>
-          <SearchBar value={query} onChange={setQuery} resultCount={visibleCoins.length} />
+          <SearchBar
+            value={query}
+            onChange={setQuery}
+            resultCount={visibleCoins.length}
+          />
 
           <div className="layout">
             <div className="layout__table">
@@ -73,18 +101,24 @@ export default function App() {
                 onSort={handleSort}
                 onSelect={setSelected}
                 selectedId={selected?.id ?? null}
+                currency={currency}
               />
             </div>
 
             {selected && (
-              <CoinDetail coin={selected} onClose={() => setSelected(null)} />
+              <CoinDetail
+                currency={currency}
+                coin={selected}
+                onClose={() => setSelected(null)}
+              />
             )}
           </div>
         </>
       )}
 
       <footer className="app-footer">
-        Datos proporcionados por la API pública de CoinGecko. Se actualiza automáticamente cada minuto.
+        Datos proporcionados por la API pública de CoinGecko. Se actualiza
+        automáticamente cada minuto.
       </footer>
     </div>
   );

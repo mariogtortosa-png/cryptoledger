@@ -2,12 +2,14 @@ import type { Coin, SortKey, SortState } from "../types/coin";
 import { formatCompact, formatPercent, formatPrice } from "../utils/format";
 import { Sparkline } from "./Sparkline";
 
+
 interface CoinTableProps {
   coins: Coin[];
   sort: SortState;
   onSort: (key: SortKey) => void;
   onSelect: (coin: Coin) => void;
   selectedId: string | null;
+  currency: string;
 }
 
 const COLUMNS: { key: SortKey; label: string; align?: "right" }[] = [
@@ -18,7 +20,14 @@ const COLUMNS: { key: SortKey; label: string; align?: "right" }[] = [
 ];
 
 //FUNCIÓN PARA DEVOLVER UN MENSAJE EN CASO DE QUE NO HAYA MONEDAS QUE MOSTRAR TRAS BUSQUEDA
-export function CoinTable({ coins, sort, onSort, onSelect, selectedId }: CoinTableProps) {
+export function CoinTable({
+  coins,
+  sort,
+  onSort,
+  onSelect,
+  selectedId,
+  currency,
+}: CoinTableProps) {
   if (coins.length === 0) {
     return (
       <div className="empty-state">
@@ -26,7 +35,6 @@ export function CoinTable({ coins, sort, onSort, onSelect, selectedId }: CoinTab
       </div>
     );
   }
-
 
   //PINTADO DE LA TABLA HTML CON DATOS
   return (
@@ -36,7 +44,9 @@ export function CoinTable({ coins, sort, onSort, onSelect, selectedId }: CoinTab
           {COLUMNS.map((col) => (
             <th
               key={col.key}
-              className={col.align === "right" ? "ledger__th--right" : undefined}
+              className={
+                col.align === "right" ? "ledger__th--right" : undefined
+              }
               aria-sort={
                 sort.key === col.key
                   ? sort.direction === "asc"
@@ -80,7 +90,9 @@ export function CoinTable({ coins, sort, onSort, onSelect, selectedId }: CoinTab
               }}
             >
               <td className="ledger__rank">{coin.market_cap_rank}</td>
-              <td className="ledger__td--right">{formatPrice(coin.current_price)}</td>
+              <td className="ledger__td--right">
+                {formatPrice(coin.current_price, currency)}
+              </td>
               <td className={`ledger__td--right ${changeClass}`}>
                 {formatPercent(change)}
               </td>
@@ -89,9 +101,17 @@ export function CoinTable({ coins, sort, onSort, onSelect, selectedId }: CoinTab
               </td>
               <td>
                 <div className="ledger__name">
-                  <img src={coin.image} alt="" width={20} height={20} loading="lazy" />
+                  <img
+                    src={coin.image}
+                    alt=""
+                    width={20}
+                    height={20}
+                    loading="lazy"
+                  />
                   <span className="ledger__name-full">{coin.name}</span>
-                  <span className="ledger__symbol">{coin.symbol.toUpperCase()}</span>
+                  <span className="ledger__symbol">
+                    {coin.symbol.toUpperCase()}
+                  </span>
                 </div>
               </td>
               <td className="ledger__td--right">

@@ -1,10 +1,10 @@
 
 //FORMATO DE LA MONEDA 
-export function formatPrice(value: number): string {
+export function formatPrice(value: number, currency: string = "EUR"): string {
   const digits = value < 1 ? 4 : 2;
   return new Intl.NumberFormat("es-ES", {
     style: "currency",
-    currency: "EUR",
+    currency: currency,
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
   }).format(value);

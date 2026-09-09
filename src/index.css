@@ -89,6 +89,41 @@ button {
   background: var(--brass);
 }
 
+.masthead__currency {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.masthead__currency select {
+  background: transparent;
+  color: var(--paper);
+  border: none;
+}
+
+.masthead__currency select:focus {
+  background: transparent;
+  color: var(--paper);
+  border: none;
+  outline: none;
+}
+
+.masthead__currency option {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+}
+
+.masthead__currency option:focus {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+}
+
 /* ---------- Status banner ---------- */
 
 .status-banner {
